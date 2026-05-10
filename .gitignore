@@ -1,0 +1,88 @@
+# ============================================================
+# AfriDevPay — .gitignore
+# ============================================================
+
+# ── Java / Maven ──────────────────────────────────────────────
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
+.mvn/wrapper/maven-wrapper.jar
+
+# ── IntelliJ IDEA ─────────────────────────────────────────────
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# ── Eclipse ───────────────────────────────────────────────────
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+bin/
+
+# ── VS Code ───────────────────────────────────────────────────
+.vscode/
+!.vscode/extensions.json
+
+# ── Node.js / Next.js ─────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+apps/web/.next/
+apps/web/out/
+apps/docs/.docusaurus/
+packages/sdk-js/dist/
+
+# ── React Native / Expo ───────────────────────────────────────
+apps/mobile/.expo/
+apps/mobile/dist/
+apps/mobile/build/
+
+# ── Environment files — NEVER commit secrets ──────────────────
+.env
+.env.local
+.env.*.local
+*.env
+
+# ── Docker overrides ──────────────────────────────────────────
+docker-compose.override.yml
+
+# ── Logs ──────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+
+# ── OS ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ── Test & Coverage ───────────────────────────────────────────
+coverage/
+jacoco.exec
+
+# ── Terraform ─────────────────────────────────────────────────
+infrastructure/terraform/.terraform/
+infrastructure/terraform/*.tfstate
+infrastructure/terraform/*.tfstate.backup
+infrastructure/terraform/terraform.tfvars
+infrastructure/k8s/secrets/
+
+# ── Misc ──────────────────────────────────────────────────────
+*.bak
+*.tmp
+*.swp
+.turbo/

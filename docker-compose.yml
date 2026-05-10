@@ -1,0 +1,145 @@
+version: "3.9"
+
+# ============================================================
+# AfriDevPay — Local Development Stack
+# ============================================================
+# Usage:
+#   docker compose up -d          → Start all services
+#   docker compose logs -f api    → Follow API logs
+#   docker compose down -v        → Stop and remove volumes
+# ============================================================
+
+name: afripay
+
+services:
+
+  # ── PostgreSQL 16 ─────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: afripay-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: afripay
+      POSTGRES_USER: afripay
+      POSTGRES_PASSWORD: afripay_dev_secret
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U afripay -d afripay"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - afripay-net
+
+  # ── Redis 7 ───────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: afripay-redis
+    restart: unless-stopped
+    command: >
+      redis-server
+      --requirepass afripay_redis_dev
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --save 60 1
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "afripay_redis_dev", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - afripay-net
+
+  # ── Spring Boot API ───────────────────────────────────────
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: afripay-api
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      DATABASE_URL: jdbc:postgresql://db:5432/afripay
+      DATABASE_USER: afripay
+      DATABASE_PASSWORD: afripay_dev_secret
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: afripay_redis_dev
+      SERVER_PORT: 8080
+      MTN_MOMO_BASE_URL: https://sandbox.momodeveloper.mtn.com
+      MTN_MOMO_SUBSCRIPTION_KEY: ${MTN_MOMO_SUBSCRIPTION_KEY:-placeholder}
+      ORANGE_CLIENT_ID: ${ORANGE_CLIENT_ID:-placeholder}
+      ORANGE_CLIENT_SECRET: ${ORANGE_CLIENT_SECRET:-placeholder}
+      WAVE_API_KEY: ${WAVE_API_KEY:-placeholder}
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8080/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - afripay-net
+
+  # ── MailHog — local SMTP for email testing ─────────────────
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: afripay-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - afripay-net
+
+  # ── Adminer — PostgreSQL UI ────────────────────────────────
+  adminer:
+    image: adminer:4.8.1
+    container_name: afripay-adminer
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+      ADMINER_DESIGN: pepa-linha-dark
+    ports:
+      - "8090:8080"
+    depends_on:
+      - db
+    networks:
+      - afripay-net
+
+  # ── RedisInsight — Redis UI ────────────────────────────────
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: afripay-redisinsight
+    restart: unless-stopped
+    ports:
+      - "5540:5540"
+    depends_on:
+      - redis
+    networks:
+      - afripay-net
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  afripay-net:
+    driver: bridge
