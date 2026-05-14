@@ -114,36 +114,24 @@ export default async function TransactionsPage({
           <span className="font-medium text-zinc-300">{Math.max(1, totalPages)}</span>
         </p>
         <div className="flex gap-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="border-white/10 bg-black/40 text-white hover:bg-white/10"
-            disabled={page <= 0}
-            asChild={page > 0}
-          >
-            {page > 0 ? (
-              <Link href={`/dashboard/transactions?page=${page - 1}`}>
-                <ArrowLeft className="h-4 w-4 mr-1" /> Prev
-              </Link>
-            ) : (
-              <><ArrowLeft className="h-4 w-4 mr-1" /> Prev</>
-            )}
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="border-white/10 bg-black/40 text-white hover:bg-white/10"
-            disabled={page >= totalPages - 1}
-            asChild={page < totalPages - 1}
-          >
-            {page < totalPages - 1 ? (
-              <Link href={`/dashboard/transactions?page=${page + 1}`}>
-                Next <ArrowRight className="h-4 w-4 ml-1" />
-              </Link>
-            ) : (
-              <>Next <ArrowRight className="h-4 w-4 ml-1" /></>
-            )}
-          </Button>
+          {page > 0 ? (
+            <Link href={`/dashboard/transactions?page=${page - 1}`} className="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium border border-white/10 bg-black/40 text-white hover:bg-white/10 transition-colors">
+              <ArrowLeft className="h-4 w-4" /> Prev
+            </Link>
+          ) : (
+            <Button variant="outline" size="sm" className="border-white/10 bg-black/40 text-white" disabled>
+              <ArrowLeft className="h-4 w-4 mr-1" /> Prev
+            </Button>
+          )}
+          {page < totalPages - 1 ? (
+            <Link href={`/dashboard/transactions?page=${page + 1}`} className="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium border border-white/10 bg-black/40 text-white hover:bg-white/10 transition-colors">
+              Next <ArrowRight className="h-4 w-4" />
+            </Link>
+          ) : (
+            <Button variant="outline" size="sm" className="border-white/10 bg-black/40 text-white" disabled>
+              Next <ArrowRight className="h-4 w-4 ml-1" />
+            </Button>
+          )}
         </div>
       </div>
     </div>

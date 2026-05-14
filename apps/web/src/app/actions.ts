@@ -3,7 +3,7 @@
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
-export async function loginAction(formData: FormData) {
+export async function loginAction(_prevState: { error: string } | null, formData: FormData) {
   const email = formData.get("email")?.toString() || "developer@example.com";
   const password = formData.get("password")?.toString() || "password";
   let isSuccess = false;
@@ -19,7 +19,7 @@ export async function loginAction(formData: FormData) {
     if (res.ok) {
       const data = await res.json();
       if (data.token) {
-        cookies().set("auth_token", data.token, {
+        (await cookies()).set("auth_token", data.token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: "lax",

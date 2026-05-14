@@ -57,7 +57,7 @@ export default function RollKeyButton({ environment, hasKey }: { environment: st
         setOpen(val)
       }
     }}>
-      <DialogTrigger asChild>
+      <DialogTrigger>
         <Button 
           variant="outline" 
           className="w-full sm:w-auto bg-white/5 hover:bg-white/10 border-white/10 text-white"

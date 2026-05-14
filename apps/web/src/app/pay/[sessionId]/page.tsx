@@ -1,6 +1,6 @@
 import { getCheckoutSession } from "./checkout-actions";
 import CheckoutForm from "./checkout-form";
-import { notFound } from "next.navigation";
+import { notFound } from "next/navigation";
 
 export default async function CheckoutPage({ params }: { params: { sessionId: string } }) {
   const session = await getCheckoutSession(params.sessionId);

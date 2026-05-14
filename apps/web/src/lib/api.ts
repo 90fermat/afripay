@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
 
 export async function fetchApi(endpoint: string, options: RequestInit = {}) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get("auth_token")?.value;
 
   const headers = new Headers(options.headers);

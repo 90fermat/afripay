@@ -1,0 +1,23 @@
+{
+  "name": "@afripay/sdk-js",
+  "version": "1.0.0",
+  "description": "Official TypeScript SDK for AfriDevPay",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "afripay",
+    "payments",
+    "africa",
+    "mobile-money"
+  ],
+  "author": "AfriDevPay",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^25.8.0",
+    "typescript": "^6.0.3"
+  }
+}
