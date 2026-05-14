@@ -31,7 +31,10 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
-          cache: gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.14
       - name: Compile
         run: gradle compileJava -x test --no-daemon
 
@@ -49,7 +52,10 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
-          cache: gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.14
       - name: Checkstyle
         run: gradle checkstyleMain checkstyleTest --no-daemon
         continue-on-error: true
@@ -73,7 +79,10 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
-          cache: gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.14
       - name: Run tests
         run: gradle test --no-daemon
         env:
@@ -145,7 +154,10 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
-          cache: gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.14
       - name: Build Spring Boot Image
         run: gradle bootBuildImage --no-daemon
 
