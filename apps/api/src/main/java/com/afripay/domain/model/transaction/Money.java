@@ -5,17 +5,13 @@ import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.Objects;
 
-public final class Money {
+public record Money(long amountMinorUnits, Currency currency) {
 
-    private final long amountMinorUnits;
-    private final Currency currency;
-
-    private Money(long amountMinorUnits, Currency currency) {
+    public Money {
         if (amountMinorUnits < 0) {
             throw new IllegalArgumentException("Monetary amount cannot be negative: " + amountMinorUnits);
         }
-        this.amountMinorUnits = amountMinorUnits;
-        this.currency = Objects.requireNonNull(currency, "Currency must not be null");
+        Objects.requireNonNull(currency, "Currency must not be null");
     }
 
     public static Money of(long amountMinorUnits, String currencyCode) {
@@ -48,30 +44,24 @@ public final class Money {
 
     public Money add(Money other) {
         assertSameCurrency(other);
-        return new Money(Math.addExact(this.amountMinorUnits, other.amountMinorUnits), currency);
+        return new Money(Math.addExact(this.amountMinorUnits, other.amountMinorUnits()), currency);
     }
 
     public Money subtract(Money other) {
         assertSameCurrency(other);
-        long result = Math.subtractExact(this.amountMinorUnits, other.amountMinorUnits);
+        long result = Math.subtractExact(this.amountMinorUnits, other.amountMinorUnits());
         if (result < 0) throw new IllegalArgumentException("Subtraction would result in negative amount");
         return new Money(result, currency);
     }
 
-    public boolean isGreaterThan(Money other) { assertSameCurrency(other); return this.amountMinorUnits > other.amountMinorUnits; }
-    public boolean isGreaterThanOrEqual(Money other) { assertSameCurrency(other); return this.amountMinorUnits >= other.amountMinorUnits; }
+    public boolean isGreaterThan(Money other) { assertSameCurrency(other); return this.amountMinorUnits > other.amountMinorUnits(); }
+    public boolean isGreaterThanOrEqual(Money other) { assertSameCurrency(other); return this.amountMinorUnits >= other.amountMinorUnits(); }
     public boolean isZero() { return amountMinorUnits == 0L; }
 
     private void assertSameCurrency(Money other) {
-        if (!this.currency.equals(other.currency))
-            throw new IllegalArgumentException("Currency mismatch: %s vs %s".formatted(this.currency, other.currency));
+        if (!this.currency.equals(other.currency()))
+            throw new IllegalArgumentException("Currency mismatch: %s vs %s".formatted(this.currency, other.currency()));
     }
 
-    @Override public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Money money)) return false;
-        return amountMinorUnits == money.amountMinorUnits && currency.equals(money.currency);
-    }
-    @Override public int hashCode() { return Objects.hash(amountMinorUnits, currency); }
     @Override public String toString() { return toMajorUnits().toPlainString() + " " + getCurrencyCode(); }
 }

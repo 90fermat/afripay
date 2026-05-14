@@ -3,17 +3,18 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 plugins {
     java
     id("org.springframework.boot") version "3.2.5"
-    id("io.spring.dependency-management") version "1.1.4"
+    id("io.spring.dependency-management") version "1.1.7"
     id("checkstyle")
-    id("org.owasp.dependencycheck") version "9.1.0"
+    id("org.owasp.dependencycheck") version "12.2.2"
 }
 
 group = "com.afripay"
 version = "1.0.0-SNAPSHOT"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
 }
 
 configurations {
@@ -47,7 +48,6 @@ dependencies {
     // Database & Flyway
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.flywaydb:flyway-core")
-    implementation("org.flywaydb:flyway-database-postgresql")
 
     // Security & JWT
     implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")

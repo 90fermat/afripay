@@ -17,6 +17,9 @@ public class Merchant {
     private MerchantStatus status;
     private MerchantTier tier;
 
+    private String webhookUrl;
+    private String webhookSecret;
+
     private final Instant createdAt;
     private Instant updatedAt;
 
@@ -37,14 +40,24 @@ public class Merchant {
 
     public static Merchant reconstitute(MerchantId id, String name, String businessName, String email,
                                         String phoneNumber, String countryCode, MerchantStatus status,
-                                        MerchantTier tier, Instant createdAt, Instant updatedAt) {
+                                        MerchantTier tier, String webhookUrl, String webhookSecret,
+                                        Instant createdAt, Instant updatedAt) {
         Merchant m = new Merchant(id, name, email, countryCode, createdAt);
         m.businessName = businessName;
         m.phoneNumber  = phoneNumber;
         m.status       = Objects.requireNonNull(status);
         m.tier         = Objects.requireNonNull(tier);
+        m.webhookUrl   = webhookUrl;
+        m.webhookSecret= webhookSecret;
         m.updatedAt    = updatedAt;
         return m;
+    }
+
+    public void updateWebhookConfig(String webhookUrl, String webhookSecret) {
+        // basic URL validation if needed
+        this.webhookUrl = webhookUrl;
+        this.webhookSecret = webhookSecret;
+        this.updatedAt = Instant.now();
     }
 
     public void activate() {
@@ -104,6 +117,8 @@ public class Merchant {
     public String getCountryCode()   { return countryCode; }
     public MerchantStatus getStatus(){ return status; }
     public MerchantTier getTier()    { return tier; }
+    public String getWebhookUrl()    { return webhookUrl; }
+    public String getWebhookSecret() { return webhookSecret; }
     public Instant getCreatedAt()    { return createdAt; }
     public Instant getUpdatedAt()    { return updatedAt; }
 

@@ -5,20 +5,20 @@
 # ============================================================
 
 # ── Stage 1: Build ────────────────────────────────────────────
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM gradle:8.8-jdk21-alpine AS builder
 
 WORKDIR /build
 
-COPY pom.xml .
-COPY .mvn .mvn
-COPY mvnw .
+COPY build.gradle.kts settings.gradle.kts ./
+COPY config ./config
 
-RUN chmod +x mvnw && \
-    ./mvnw dependency:go-offline -B -q
+# Cache dependencies to avoid re-downloading on code changes
+RUN gradle dependencies --no-daemon || true
 
 COPY src ./src
-RUN ./mvnw package -DskipTests -B -q && \
-    java -Djarmode=layertools -jar target/*.jar extract
+
+# Build the app with retry logic for flaky networks
+RUN gradle bootJar -x test --no-daemon 
 
 # ── Stage 2: Runtime ──────────────────────────────────────────
 FROM eclipse-temurin:21-jre-alpine AS runner

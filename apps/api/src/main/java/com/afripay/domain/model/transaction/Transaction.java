@@ -57,6 +57,20 @@ public class Transaction {
             provider, type, amount, phoneNumber, customerRef, metadata, Instant.now());
     }
 
+    public static Transaction reconstitute(TransactionId id, MerchantId merchantId, String externalRef, String idempotencyKey,
+                                           ProviderType provider, TransactionType type, Money amount,
+                                           String phoneNumber, String customerRef, Map<String, Object> metadata,
+                                           TransactionStatus status, String providerTransactionId, Map<String, Object> providerResponse,
+                                           String failureReason, Instant createdAt, Instant updatedAt) {
+        Transaction t = new Transaction(id, merchantId, externalRef, idempotencyKey, provider, type, amount, phoneNumber, customerRef, metadata, createdAt);
+        t.status = status;
+        t.providerTransactionId = providerTransactionId;
+        t.providerResponse = providerResponse;
+        t.failureReason = failureReason;
+        t.updatedAt = updatedAt;
+        return t;
+    }
+
     public void markSuccess(String providerTransactionId, Map<String, Object> providerResponse) {
         assertCanTransitionTo(TransactionStatus.SUCCESS);
         this.status = TransactionStatus.SUCCESS;
