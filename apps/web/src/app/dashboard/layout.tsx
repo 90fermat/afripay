@@ -21,9 +21,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <aside className="w-64 border-r border-white/10 bg-[#050B14]/80 backdrop-blur-xl flex flex-col z-20">
         <div className="p-6">
           <Link href="/dashboard" className="flex items-center gap-2 transition-opacity hover:opacity-80">
-            <div className="w-7 h-7 rounded-md bg-gradient-to-br from-indigo-500 to-emerald-400 shadow-[0_0_15px_rgba(99,102,241,0.4)] flex items-center justify-center">
-              <Activity className="h-4 w-4 text-white" />
-            </div>
+            <img src="/logo.png" alt="AfriDevPay" className="w-7 h-7 rounded-md object-cover shadow-[0_0_15px_rgba(99,102,241,0.4)]" />
             <span className="text-xl font-bold tracking-tight text-white">AfriDevPay</span>
           </Link>
         </div>

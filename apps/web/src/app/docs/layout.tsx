@@ -18,7 +18,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
       <nav className="sticky top-0 z-50 border-b border-white/5 bg-[#030712]/80 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded-md bg-gradient-to-br from-indigo-500 to-emerald-400" />
+            <img src="/logo.png" alt="AfriDevPay" className="w-6 h-6 rounded-md object-cover" />
             <span className="font-bold text-sm">AfriDevPay</span>
             <span className="text-zinc-600 text-sm">/</span>
             <span className="text-zinc-400 text-sm font-medium">Docs</span>

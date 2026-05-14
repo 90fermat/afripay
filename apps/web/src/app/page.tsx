@@ -25,7 +25,7 @@ export default function LandingPage() {
       <nav className="relative z-50 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-emerald-400 shadow-[0_0_20px_rgba(99,102,241,0.4)] group-hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] transition-shadow" />
+            <img src="/logo.png" alt="AfriDevPay" className="w-8 h-8 rounded-lg shadow-[0_0_20px_rgba(99,102,241,0.4)] group-hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] transition-shadow object-cover" />
             <span className="text-lg font-bold tracking-tight">AfriDevPay</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-zinc-400">
@@ -314,7 +314,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-6 h-6 rounded-md bg-gradient-to-br from-indigo-500 to-emerald-400" />
+                <img src="/logo.png" alt="AfriDevPay" className="w-6 h-6 rounded-md object-cover" />
                 <span className="font-bold text-sm">AfriDevPay</span>
               </div>
               <p className="text-xs text-zinc-500 leading-relaxed">

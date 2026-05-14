@@ -25,7 +25,7 @@ export default function LoginPage() {
       <div className="z-10 w-full max-w-sm mt-[-5vh]">
         <div className="text-center mb-8 space-y-3">
           <Link href="/" className="inline-flex items-center justify-center p-2 bg-white/5 rounded-2xl border border-white/10 shadow-2xl mb-2 backdrop-blur-xl">
-             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-emerald-400 shadow-[0_0_20px_rgba(99,102,241,0.5)]" />
+             <img src="/logo.png" alt="AfriDevPay" className="w-8 h-8 rounded-lg object-cover shadow-[0_0_20px_rgba(99,102,241,0.5)]" />
           </Link>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60">
             AfriDevPay
